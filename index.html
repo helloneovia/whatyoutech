@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WHAT YOU TECH - The Ultimate Coin Toss</title>
-    <meta name="description" content="A visually stunning, high-tech coin toss game. Discover the future of probability with WHAT YOU TECH.">
+    <title>WHAT YOU TECH - Ultimate Gaming Hub</title>
+    <meta name="description" content="A visually stunning, high-tech gaming hub with Coin Toss, Cyber Dice, and Neural Roulette. Discover the future of probability.">
     <link rel="stylesheet" href="style.css">
     <!-- Google Fonts for high-tech look -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
@@ -13,7 +13,9 @@
     <div class="background-effects">
         <div class="glow glow-1"></div>
         <div class="glow glow-2"></div>
+        <div class="glow glow-3"></div>
         <div class="grid-overlay"></div>
+        <div class="particle-field" id="particle-field"></div>
     </div>
 
     <header class="glass-panel">
@@ -40,17 +42,18 @@
             </svg>
             <h1 id="logo-text">WHAT YOU <span class="accent-text">TECH</span></h1>
         </div>
-        <nav>
-            <a href="#" class="active">Simulator</a>
-            <a href="#">Metrics</a>
-            <a href="#">System</a>
+        <nav id="main-nav">
+            <a href="#" class="nav-link active" data-game="coin-toss">Coin Toss</a>
+            <a href="#" class="nav-link" data-game="cyber-dice">Cyber Dice</a>
+            <a href="#" class="nav-link" data-game="neural-roulette">Neural Roulette</a>
         </nav>
     </header>
 
     <main>
-        <div class="game-container glass-panel" id="game-panel">
+        <!-- COIN TOSS GAME -->
+        <div class="game-container glass-panel" id="coin-toss-game" data-game="coin-toss">
             <div class="status-display">
-                <h2 id="result-text">Awaiting Input...</h2>
+                <h2 id="coin-result-text">Awaiting Input...</h2>
             </div>
 
             <div class="scene">
@@ -90,6 +93,91 @@
                     <div class="stat-box">
                         <span class="stat-label">STREAK</span>
                         <span class="stat-value" id="streak-count" style="color: #f6e05e;">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CYBER DICE GAME -->
+        <div class="game-container glass-panel hidden" id="cyber-dice-game" data-game="cyber-dice">
+            <div class="status-display">
+                <h2 id="dice-result-text">Awaiting Input...</h2>
+            </div>
+
+            <div class="dice-scene">
+                <div class="dice-container" id="dice-container">
+                    <div class="dice" id="dice-1">
+                        <div class="dice-face dice-face-1">1</div>
+                        <div class="dice-face dice-face-2">2</div>
+                        <div class="dice-face dice-face-3">3</div>
+                        <div class="dice-face dice-face-4">4</div>
+                        <div class="dice-face dice-face-5">5</div>
+                        <div class="dice-face dice-face-6">6</div>
+                    </div>
+                    <div class="dice" id="dice-2">
+                        <div class="dice-face dice-face-1">1</div>
+                        <div class="dice-face dice-face-2">2</div>
+                        <div class="dice-face dice-face-3">3</div>
+                        <div class="dice-face dice-face-4">4</div>
+                        <div class="dice-face dice-face-5">5</div>
+                        <div class="dice-face dice-face-6">6</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button id="dice-btn" class="neon-btn">ROLL PROTOCOL</button>
+                <div class="stats">
+                    <div class="stat-box">
+                        <span class="stat-label">TOTAL</span>
+                        <span class="stat-value" id="dice-total">0</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">ROLLS</span>
+                        <span class="stat-value" id="dice-rolls">0</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">AVG</span>
+                        <span class="stat-value" id="dice-avg">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEURAL ROULETTE GAME -->
+        <div class="game-container glass-panel hidden" id="neural-roulette-game" data-game="neural-roulette">
+            <div class="status-display">
+                <h2 id="roulette-result-text">Awaiting Input...</h2>
+            </div>
+
+            <div class="roulette-scene">
+                <div class="roulette-wheel" id="roulette-wheel">
+                    <div class="roulette-segment" style="--segment: 0; --color: #00f3ff;">1</div>
+                    <div class="roulette-segment" style="--segment: 1; --color: #b521ff;">2</div>
+                    <div class="roulette-segment" style="--segment: 2; --color: #00f3ff;">3</div>
+                    <div class="roulette-segment" style="--segment: 3; --color: #b521ff;">4</div>
+                    <div class="roulette-segment" style="--segment: 4; --color: #00f3ff;">5</div>
+                    <div class="roulette-segment" style="--segment: 5; --color: #b521ff;">6</div>
+                    <div class="roulette-segment" style="--segment: 6; --color: #00f3ff;">7</div>
+                    <div class="roulette-segment" style="--segment: 7; --color: #b521ff;">8</div>
+                    <div class="roulette-pointer"></div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button id="roulette-btn" class="neon-btn">SPIN NEURAL NET</button>
+                <div class="stats">
+                    <div class="stat-box">
+                        <span class="stat-label">RESULT</span>
+                        <span class="stat-value" id="roulette-result">-</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">SPINS</span>
+                        <span class="stat-value" id="roulette-spins">0</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">WINS</span>
+                        <span class="stat-value" id="roulette-wins">0</span>
                     </div>
                 </div>
             </div>

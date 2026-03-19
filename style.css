@@ -2,6 +2,7 @@
     --bg-dark: #07090f;
     --neon-cyan: #00f3ff;
     --neon-purple: #b521ff;
+    --neon-green: #39ff14;
     --glass-bg: rgba(16, 18, 27, 0.6);
     --glass-border: rgba(255, 255, 255, 0.08);
     --text-main: #e2e8f0;
@@ -76,9 +77,54 @@ body {
     animation-delay: -10s;
 }
 
+.glow-3 {
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    height: 400px;
+    background: var(--neon-green);
+    opacity: 0.15;
+    animation-delay: -5s;
+}
+
 @keyframes drift {
     0% { transform: translate(0, 0) scale(1); }
     100% { transform: translate(150px, 150px) scale(1.2); }
+}
+
+/* Particle Field */
+.particle-field {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: var(--neon-cyan);
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: float 20s infinite linear;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(100vh) translateX(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    90% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-100vh) translateX(100px);
+        opacity: 0;
+    }
 }
 
 /* Glassmorphism Classes */
@@ -125,7 +171,7 @@ nav {
     gap: 2rem;
 }
 
-nav a {
+.nav-link {
     color: var(--text-main);
     text-decoration: none;
     font-family: var(--font-heading);
@@ -135,14 +181,15 @@ nav a {
     transition: 0.3s;
     position: relative;
     padding-bottom: 5px;
+    cursor: pointer;
 }
 
-nav a.active, nav a:hover {
+.nav-link.active, .nav-link:hover {
     color: var(--neon-cyan);
     text-shadow: 0 0 8px var(--neon-cyan);
 }
 
-nav a.active::after, nav a:hover::after {
+.nav-link.active::after, .nav-link:hover::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -174,6 +221,15 @@ main {
     gap: 3rem;
     position: relative;
     overflow: hidden;
+    transition: all 0.5s ease;
+    opacity: 1;
+    visibility: visible;
+}
+
+.game-container.hidden {
+    display: none;
+    opacity: 0;
+    visibility: hidden;
 }
 
 /* Scanline effect over game container */
@@ -196,7 +252,7 @@ main {
     z-index: 20;
 }
 
-#result-text {
+#coin-result-text, #dice-result-text, #roulette-result-text {
     font-family: var(--font-heading);
     font-size: 1.8rem;
     text-transform: uppercase;
@@ -206,6 +262,8 @@ main {
     height: 2.2rem;
     transition: color 0.3s, text-shadow 0.3s;
 }
+
+/* ===== COIN TOSS STYLES ===== */
 
 /* 3D Coin Animation */
 .scene {
@@ -273,7 +331,125 @@ main {
     filter: drop-shadow(0 0 8px var(--neon-purple));
 }
 
-/* Controls & Stats */
+/* ===== CYBER DICE STYLES ===== */
+
+.dice-scene {
+    width: 280px;
+    height: 280px;
+    perspective: 1200px;
+    z-index: 20;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dice-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    transform-style: preserve-3d;
+}
+
+.dice {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.dice-face {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    font-weight: 900;
+    border: 3px solid var(--neon-cyan);
+    background: rgba(0, 243, 255, 0.1);
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.3), inset 0 0 20px rgba(0, 243, 255, 0.1);
+    color: var(--neon-cyan);
+    text-shadow: 0 0 10px var(--neon-cyan);
+}
+
+.dice-face-1 { transform: rotateY(0deg) translateZ(50px); }
+.dice-face-2 { transform: rotateY(180deg) translateZ(50px); }
+.dice-face-3 { transform: rotateY(90deg) translateZ(50px); }
+.dice-face-4 { transform: rotateY(-90deg) translateZ(50px); }
+.dice-face-5 { transform: rotateX(90deg) translateZ(50px); }
+.dice-face-6 { transform: rotateX(-90deg) translateZ(50px); }
+
+/* ===== NEURAL ROULETTE STYLES ===== */
+
+.roulette-scene {
+    width: 280px;
+    height: 280px;
+    perspective: 1200px;
+    z-index: 20;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.roulette-wheel {
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    position: relative;
+    border: 4px solid var(--neon-cyan);
+    box-shadow: 0 0 40px rgba(0, 243, 255, 0.3), inset 0 0 30px rgba(0, 243, 255, 0.1);
+    background: radial-gradient(circle at center, rgba(0, 243, 255, 0.1) 0%, rgba(7, 9, 15, 0.8) 100%);
+    overflow: hidden;
+}
+
+.roulette-segment {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 15px;
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-main);
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+    clip-path: polygon(50% 50%, 50% 0%, 100% 0%);
+    transform: rotate(calc(var(--segment) * 45deg));
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.roulette-segment:nth-child(odd) {
+    background: radial-gradient(circle at center, rgba(0, 243, 255, 0.2) 0%, rgba(0, 243, 255, 0.05) 100%);
+}
+
+.roulette-segment:nth-child(even) {
+    background: radial-gradient(circle at center, rgba(181, 33, 255, 0.2) 0%, rgba(181, 33, 255, 0.05) 100%);
+}
+
+.roulette-pointer {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: 20px solid var(--neon-cyan);
+    filter: drop-shadow(0 0 8px var(--neon-cyan));
+    z-index: 30;
+}
+
+/* ===== CONTROLS & STATS ===== */
+
 .controls {
     display: flex;
     flex-direction: column;
@@ -363,11 +539,20 @@ main {
     font-family: var(--font-heading);
     font-size: 1.6rem;
     font-weight: 900;
+    color: var(--neon-cyan);
 }
 
 #heads-count { color: var(--neon-cyan); }
 #tails-count { color: var(--neon-purple); }
 #streak-count { color: #f6e05e; }
+
+#dice-total { color: var(--neon-green); }
+#dice-rolls { color: var(--neon-cyan); }
+#dice-avg { color: var(--neon-purple); }
+
+#roulette-result { color: var(--neon-cyan); }
+#roulette-spins { color: var(--neon-green); }
+#roulette-wins { color: #f6e05e; }
 
 /* Responsive */
 @media (max-width: 768px) {
@@ -376,11 +561,69 @@ main {
         gap: 1.5rem;
         padding: 1.5rem 2rem;
     }
+
+    nav {
+        gap: 1rem;
+    }
+
+    .nav-link {
+        font-size: 0.8rem;
+    }
+
     .game-container {
         padding: 2rem 1.5rem;
     }
+
     .scene {
         width: 180px;
         height: 180px;
+    }
+
+    .dice-scene {
+        width: 200px;
+        height: 200px;
+    }
+
+    .dice-container {
+        gap: 1rem;
+    }
+
+    .dice {
+        width: 70px;
+        height: 70px;
+    }
+
+    .dice-face {
+        width: 70px;
+        height: 70px;
+        font-size: 1.8rem;
+    }
+
+    .dice-face-1 { transform: rotateY(0deg) translateZ(35px); }
+    .dice-face-2 { transform: rotateY(180deg) translateZ(35px); }
+    .dice-face-3 { transform: rotateY(90deg) translateZ(35px); }
+    .dice-face-4 { transform: rotateY(-90deg) translateZ(35px); }
+    .dice-face-5 { transform: rotateX(90deg) translateZ(35px); }
+    .dice-face-6 { transform: rotateX(-90deg) translateZ(35px); }
+
+    .roulette-scene {
+        width: 200px;
+        height: 200px;
+    }
+
+    .roulette-wheel {
+        width: 180px;
+        height: 180px;
+    }
+
+    .roulette-segment {
+        font-size: 1rem;
+        padding-top: 10px;
+    }
+
+    .roulette-pointer {
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 15px solid var(--neon-cyan);
     }
 }
